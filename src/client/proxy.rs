@@ -53,7 +53,7 @@ where C: NetworkConnector + Send + Sync + 'static,
                     Some (ref proxy_headers) => {
                         let mut all_headers = String::new();
                         for (header, value) in proxy_headers {
-                            all_headers = all_headers + &header + &":" + &value + &"\r\n";
+                            all_headers = all_headers + &format!("{}: {}\r\n", &header, &value);
                         }
                         try!(write!(&mut stream, "{method} {host}:{port} {version}\r\nHost: {host}:{port}\r\n{all_headers}\r\n",
                                     method=Method::Connect, host=host, port=port, version=Http11, all_headers=all_headers));
